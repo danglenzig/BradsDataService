@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f14ba9f931d826448f3167c59992878, type: 3}
+  m_Name: DataCatalogSO
+  m_EditorClassIdentifier: Assembly-CSharp::BradsDataService.DataCatalogSO
+  fields:
+  - {fileID: 11400000, guid: 16634ad581046754f8d26fe65645c303, type: 2}
+  - {fileID: 11400000, guid: 9a2b5a506653a0a4b8b79a16b4b6bf56, type: 2}
+  - {fileID: 11400000, guid: a6f06b84c346462408638104500ab4e8, type: 2}
