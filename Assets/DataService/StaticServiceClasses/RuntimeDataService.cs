@@ -15,6 +15,7 @@ namespace BradsDataService
                 data = RuntimeDataOwner.Instance.GetFullRuntimeData();
                 return true;
             }
+            Debug.LogWarning("RuntimeDataOwner not found.");
             data = null;
             return data != null;
         }
@@ -30,7 +31,13 @@ namespace BradsDataService
                     value = _value;
                     return true;
                 }
+                else
+                {
+                    Debug.LogWarning($"Invalid fieldID: {fieldID}.");
+                    return false;
+                }
             }
+            Debug.LogWarning("RuntimeDataOwner not found.");
             return false;
         }
 
@@ -42,27 +49,15 @@ namespace BradsDataService
                 {
                     return true;
                 }
+                else
+                {
+                    Debug.LogWarning($"Cannot update fieldID: {fieldID}.");
+                    return false;
+                }
             }
+            Debug.LogWarning("RuntimeDataOwner not found.");
             return false;
         }
-
-        public static bool TryAppendToRuntimeStringList(RuntimeDatum<StringListWrapper> stringListDatum, string appendedString)
-        {
-
-            // ...
-
-            return false;
-        }
-
-        public static bool TryRemoveFromRuntimeStringList(RuntimeDatum<StringListWrapper> stringListDatum, string removedString)
-        {
-
-            // ...
-
-            return false;
-        }
-
-
     }
 }
 

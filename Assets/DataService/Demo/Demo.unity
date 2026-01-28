@@ -150,6 +150,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DemoSceneController
   playerNameField: {fileID: 11400000, guid: 16634ad581046754f8d26fe65645c303, type: 2}
   playerStatusEffectField: {fileID: 11400000, guid: 822c11b1d2c3f204882fc78547705759, type: 2}
+  playerPositionField: {fileID: 11400000, guid: a6f06b84c346462408638104500ab4e8, type: 2}
+  playerHealthField: {fileID: 11400000, guid: ab0050fdd95e04d498b40d4b65b7c3e4, type: 2}
+  secondsPlayedField: {fileID: 11400000, guid: 9a2b5a506653a0a4b8b79a16b4b6bf56, type: 2}
+  playerMapPosition: {fileID: 11400000, guid: cdea67cee70b2ec43baf84ac9a909532, type: 2}
+  playerColor: {fileID: 11400000, guid: c25566f7fbde8974abc00465e1475aa7, type: 2}
+  questStatuses: {fileID: 11400000, guid: e22cbcff116f9ef41b04ce6fcf363b93, type: 2}
+  playerOnboarded: {fileID: 11400000, guid: 611c403228e2bbc4cbeb08db9fc8438e, type: 2}
 --- !u!4 &435438547
 Transform:
   m_ObjectHideFlags: 0
