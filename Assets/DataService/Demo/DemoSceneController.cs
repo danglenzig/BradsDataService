@@ -23,7 +23,6 @@ public class DemoSceneController : MonoBehaviour
     [SerializeField] private FieldSO questStatuses;             // Dictionary<string, string>
     [SerializeField] private FieldSO playerOnboarded;           // bool
 
-
     private void Start()
     {
         SetTestPlayerName("Namey Nameson");
@@ -191,7 +190,4 @@ public class DemoSceneController : MonoBehaviour
         string outStr = $"({vector4.w}, {vector4.x}, {vector4.y}, {vector4.z})";
         return outStr;
     }
-
-
-
 }
