@@ -11,6 +11,9 @@ namespace BradsDataService
         VECTOR_2,
         VECTOR_3,
         VECTOR_4,
+
+        STRING_LIST,
+        STRING_DICT,
     }
 
     [CreateAssetMenu(fileName = "FieldSO", menuName = "Data Service/Field")]

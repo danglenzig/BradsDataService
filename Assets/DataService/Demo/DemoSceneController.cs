@@ -5,27 +5,28 @@ using BradsDataService;
 
 public class DemoSceneController : MonoBehaviour
 {
-
-
     [SerializeField] private FieldSO playerNameField;
-
+    [SerializeField] private FieldSO playerStatusEffectField;
 
     private void Start()
     {
-
-
         SetTestPlayerName("Namey Nameson");
-
-
-        
+        SetTestPlayerStatusFX();
+        DebugRuntimeData();
     }
 
     private void SetTestPlayerName(string pName)
     {
-        if (RuntimeDataService.TryUpdateRuntimeDatum<string>(pName, playerNameField.FieldID))
-        {
-            DebugRuntimeData();
-        }
+        RuntimeDataService.TryUpdateRuntimeDatum<string>(pName, playerNameField.FieldID);
+    }
+
+    private void SetTestPlayerStatusFX()
+    {
+        List<string> fxList = new();
+        fxList.Add("HUNGRY");
+        fxList.Add("ANGRY");
+        fxList.Add("TIRED");
+        RuntimeDataService.TryUpdateRuntimeDatum<List<string>>(fxList, playerStatusEffectField.FieldID);
     }
 
     private void DebugRuntimeData()
@@ -48,9 +49,26 @@ public class DemoSceneController : MonoBehaviour
                     case EnumFieldType.STRING:
                         valStr = (datum as RuntimeDatum<string>).Value;
                         break;
+                    case EnumFieldType.STRING_LIST:
+                        valStr = StringifyList((datum as RuntimeDatum<List<string>>).Value);
+                        break;
+
                 }
                 Debug.Log($"{fieldName} -- {fieldType.ToString()}: {valStr}");
             }
         }
     }
+
+    private string StringifyList(List<string> strList)
+    {
+        string outStr = string.Empty;
+        foreach(string item in strList)
+        {
+            outStr += $"{item}, ";
+        }
+        return outStr;
+    }
+
+
+
 }

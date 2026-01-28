@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DemoSceneController
   playerNameField: {fileID: 11400000, guid: 16634ad581046754f8d26fe65645c303, type: 2}
+  playerStatusEffectField: {fileID: 11400000, guid: 822c11b1d2c3f204882fc78547705759, type: 2}
 --- !u!4 &435438547
 Transform:
   m_ObjectHideFlags: 0
