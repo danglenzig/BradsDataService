@@ -49,37 +49,21 @@ namespace BradsDataService
                 {
                     fieldNamesAndTypesByID[f.FieldID] = new FieldNameAndType(f.FieldName, f.FieldType);
                 }
-                if (TryGetNewDatum(f.FieldType, out IRuntimeDatum datum))
+                if (ConversionTools.TryGetNewRuntimeDatum(f.FieldType, out IRuntimeDatum datum))
                 {
-                    data[f.FieldID] = datum;
+                    data[f.FieldID] = datum; ///////
                 }
             }
         }
-        
 
-        private bool TryGetNewDatum(EnumFieldType fieldType, out IRuntimeDatum datum)
+        public void SetFieldNamesAndTypesByID(Dictionary<string, FieldNameAndType> inDict)
         {
-            datum = null;
-            switch (fieldType)
-            {
-                case EnumFieldType.STRING:
-                    datum = new RuntimeDatum<string>(string.Empty); break;
-                case EnumFieldType.FLOAT:
-                    datum = new RuntimeDatum<float>(0f); break;
-                case EnumFieldType.INT:
-                    datum = new RuntimeDatum<int>(0); break;
-                case EnumFieldType.BOOL:
-                    datum = new RuntimeDatum<bool>(false); break;
-                case EnumFieldType.VECTOR_3:
-                    datum = new RuntimeDatum<Vector3>(new Vector3()); break;
-                case EnumFieldType.VECTOR_2:
-                    datum = new RuntimeDatum<Vector2>(new Vector2()); break;
-                case EnumFieldType.VECTOR_4:
-                    datum = new RuntimeDatum<Vector4>(new Vector4()); break;
-            }
-            return (datum != null);
+            fieldNamesAndTypesByID = new Dictionary<string, FieldNameAndType>(inDict);
         }
-
+        public void SetDataDict(Dictionary<string, IRuntimeDatum> inDict)
+        {
+            data = new Dictionary<string, IRuntimeDatum>(inDict);
+        }
     }
 }
 

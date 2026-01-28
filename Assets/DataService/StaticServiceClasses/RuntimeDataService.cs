@@ -33,6 +33,7 @@ namespace BradsDataService
             }
             return false;
         }
+
         public static bool TryUpdateRuntimeDatum<T>(T value, string fieldID)
         {
             if (RuntimeDataOwner.Instance != null)
@@ -45,6 +46,21 @@ namespace BradsDataService
             return false;
         }
 
+        public static bool TryAppendToRuntimeStringList(RuntimeDatum<StringListWrapper> stringListDatum, string appendedString)
+        {
+
+            // ...
+
+            return false;
+        }
+
+        public static bool TryRemoveFromRuntimeStringList(RuntimeDatum<StringListWrapper> stringListDatum, string removedString)
+        {
+
+            // ...
+
+            return false;
+        }
 
 
     }
