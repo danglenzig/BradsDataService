@@ -58,6 +58,27 @@ namespace BradsDataService
             Debug.LogWarning("RuntimeDataOwner not found.");
             return false;
         }
+
+        public static bool TryLoadNewRuntimeData(RuntimeData newData)
+        {
+            if (RuntimeDataOwner.Instance != null)
+            {
+                RuntimeDataOwner.Instance.SetRuntimeData(newData);
+                return true;
+            }
+            Debug.LogWarning("RuntimeDataOwner not found.");
+            return false;
+        }
+        public static bool TryClearSavedData()
+        {
+            if (RuntimeDataOwner.Instance != null)
+            {
+                //
+                return true;
+            }
+            Debug.LogWarning("RuntimeDataOwner not found.");
+            return false;
+        }
     }
 }
 
