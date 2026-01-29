@@ -170,8 +170,17 @@ public class DemoGameData : MonoBehaviour
         }
     }
 
-
-
+    public RuntimeData RuntimeData
+    {
+        get
+        {
+            if (RuntimeDataService.TryGetRuntimeData(out RuntimeData data))
+            {
+                return data;
+            }
+            return null;
+        }
+    }
     public string PlayerName
     {
         get => playerName;
@@ -217,6 +226,25 @@ public class DemoGameData : MonoBehaviour
         get => currentQuestStatuses;
         set => currentQuestStatuses = value;
     }
+
+    public bool TryLoadNewRuntimeData(RuntimeData newData)
+    {
+        if (RuntimeDataService.TryLoadNewRuntimeData(newData))
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool TryClearSaveData()
+    {
+        if (RuntimeDataService.TryClearSavedData())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    
 
     // helpers //
     private bool TryGetQuestDictFromQuestStringDict(Dictionary<string, string> stringDict, out Dictionary<string, EnumQuestStatus> questDict)

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using BradsDataService;
+using BradsEvents;
 
 
 public static class StatusEffects
@@ -26,7 +27,14 @@ public class DemoSceneController : MonoBehaviour
 {
 
     [SerializeField] private DemoGameData gameData;
-    [SerializeField] private Button testButton;
+    [SerializeField] private Button randomizeDataButton;
+    [SerializeField] private Button saveButton;
+    [SerializeField] private Button loadButton;
+    [SerializeField] private Button clearButton;
+
+    [SerializeField] private EmptyEventChannel dataSavedEvent;
+    [SerializeField] private EmptyEventChannel dataLoadedEvent;
+    [SerializeField] private EmptyEventChannel dataClearedEvent;
 
     private List<string> statusFX = new();
     private Dictionary<string, EnumQuestStatus> questStatusDict = new();
@@ -34,11 +42,27 @@ public class DemoSceneController : MonoBehaviour
 
     private void OnEnable()
     {
-        testButton.onClick.AddListener(OnTestButtonPressed);
+        loadButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        clearButton.gameObject.SetActive(SingleSaveService.SaveExists());
+
+        randomizeDataButton.onClick.AddListener(OnTestButtonPressed);
+        saveButton.onClick.AddListener(OnSavePressed);
+        loadButton.onClick.AddListener(OnLoadPressed);
+        clearButton.onClick.AddListener(OnClearPressed);
+
+        dataSavedEvent.OnEventTriggered += OnDataSaved;
+        dataClearedEvent.OnEventTriggered += OnDataCleared;
+
     }
     private void OnDisable()
     {
-        testButton.onClick.RemoveAllListeners();
+        randomizeDataButton.onClick.RemoveAllListeners();
+        saveButton.onClick.RemoveAllListeners();
+        loadButton.onClick.RemoveAllListeners();
+        clearButton.onClick.RemoveAllListeners();
+
+        dataSavedEvent.OnEventTriggered -= OnDataSaved;
+        dataClearedEvent.OnEventTriggered -= OnDataCleared;
     }
 
     private void Start()
@@ -51,6 +75,40 @@ public class DemoSceneController : MonoBehaviour
     {
         RandomizeGameData();
         DebugGameData();
+    }
+
+    private void OnSavePressed()
+    {
+        if(gameData.RuntimeData != null)
+        {
+            if (SingleSaveService.TrySave(gameData.RuntimeData))
+            {
+                dataSavedEvent.TriggerEvent();
+            }
+        }
+    }
+
+    private void OnLoadPressed()
+    {
+        // get saved data from disk
+        // convert to runtime data
+        // gameData.TryLoadNewRuntimeData(newData);
+    }
+
+    private void OnClearPressed()
+    {
+        //
+    }
+
+    private void OnDataSaved()
+    {
+        loadButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        clearButton.gameObject.SetActive(SingleSaveService.SaveExists());
+    }
+    private void OnDataCleared()
+    {
+        loadButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        clearButton.gameObject.SetActive(SingleSaveService.SaveExists());
     }
 
     private void InitializeGameData()
