@@ -73,7 +73,7 @@ namespace BradsDataService
         {
             if (RuntimeDataOwner.Instance != null)
             {
-                //
+                SingleSaveService.ClearSave();
                 return true;
             }
             Debug.LogWarning("RuntimeDataOwner not found.");

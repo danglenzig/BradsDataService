@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using BradsDataService;
 using BradsEvents;
-
+using TMPro;
 
 public static class StatusEffects
 {
@@ -31,6 +31,8 @@ public class DemoSceneController : MonoBehaviour
     [SerializeField] private Button saveButton;
     [SerializeField] private Button loadButton;
     [SerializeField] private Button clearButton;
+    [SerializeField] private Button debugButton;
+    [SerializeField] private TMP_Text outputText;
 
     [SerializeField] private EmptyEventChannel dataSavedEvent;
     [SerializeField] private EmptyEventChannel dataLoadedEvent;
@@ -42,16 +44,17 @@ public class DemoSceneController : MonoBehaviour
 
     private void OnEnable()
     {
-        loadButton.gameObject.SetActive(SingleSaveService.SaveExists());
-        clearButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        FixButtons();
 
         randomizeDataButton.onClick.AddListener(OnTestButtonPressed);
         saveButton.onClick.AddListener(OnSavePressed);
         loadButton.onClick.AddListener(OnLoadPressed);
         clearButton.onClick.AddListener(OnClearPressed);
+        debugButton.onClick.AddListener(OnDebugPressed);
 
         dataSavedEvent.OnEventTriggered += OnDataSaved;
         dataClearedEvent.OnEventTriggered += OnDataCleared;
+        
 
     }
     private void OnDisable()
@@ -60,6 +63,7 @@ public class DemoSceneController : MonoBehaviour
         saveButton.onClick.RemoveAllListeners();
         loadButton.onClick.RemoveAllListeners();
         clearButton.onClick.RemoveAllListeners();
+        debugButton.onClick.RemoveAllListeners();
 
         dataSavedEvent.OnEventTriggered -= OnDataSaved;
         dataClearedEvent.OnEventTriggered -= OnDataCleared;
@@ -67,14 +71,17 @@ public class DemoSceneController : MonoBehaviour
 
     private void Start()
     {
+        if (SingleSaveService.SaveExists())
+        {
+            OnLoadPressed();
+            return;
+        }
         InitializeGameData();
-        DebugGameData();
     }
 
     private void OnTestButtonPressed()
     {
         RandomizeGameData();
-        DebugGameData();
     }
 
     private void OnSavePressed()
@@ -91,24 +98,37 @@ public class DemoSceneController : MonoBehaviour
     private void OnLoadPressed()
     {
         // get saved data from disk
-        // convert to runtime data
-        // gameData.TryLoadNewRuntimeData(newData);
+        if(SingleSaveService.TryLoad(out RuntimeData data))
+        {
+            if (gameData.TryLoadNewRuntimeData(data))
+            {
+                dataLoadedEvent.TriggerEvent();
+            }
+        }
+        FixButtons();
     }
 
     private void OnClearPressed()
     {
-        //
+        if (gameData.TryClearSaveData())
+        {
+            dataClearedEvent.TriggerEvent();
+        }
+    }
+
+    private void OnDebugPressed()
+    {
+        DebugGameData();
     }
 
     private void OnDataSaved()
     {
-        loadButton.gameObject.SetActive(SingleSaveService.SaveExists());
-        clearButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        FixButtons();
     }
     private void OnDataCleared()
     {
-        loadButton.gameObject.SetActive(SingleSaveService.SaveExists());
-        clearButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        InitializeGameData();
+        FixButtons();
     }
 
     private void InitializeGameData()
@@ -159,7 +179,7 @@ public class DemoSceneController : MonoBehaviour
         }
         gameData.CurrentQuestStatuses = newStatusDict;
 
-
+        DebugGameData();
 
     }
 
@@ -175,7 +195,8 @@ public class DemoSceneController : MonoBehaviour
         debugStr += $"Player onboarded: {gameData.PlayerOnboarded}\n";
         debugStr += $"{StringifyFXList()}\n";
         debugStr += $"{StringifyQuestDict()}\n";
-        Debug.Log(debugStr);
+        //Debug.Log(debugStr);
+        outputText.text = debugStr;
     }
 
     private string StringifyFXList()
@@ -198,5 +219,12 @@ public class DemoSceneController : MonoBehaviour
             outStr += $"{keyStr}: {valStr}, ";
         }
         return outStr;
+    }
+
+    private void FixButtons()
+    {
+        loadButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        clearButton.gameObject.SetActive(SingleSaveService.SaveExists());
+        DebugGameData();
     }
 }
